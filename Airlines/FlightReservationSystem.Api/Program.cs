@@ -1,9 +1,11 @@
 using FlightReservationSystem.Application.Interfaces;
 using FlightReservationSystem.Application.Services;
+using FlightReservationSystem.Domain.Entities;
 using FlightReservationSystem.Domain.Interfaces;
 using FlightReservationSystem.Infrastructure.Persistence;
 using FlightReservationSystem.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -41,6 +43,8 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseCors();
+
 // Map controllers to the application
 app.MapControllers();
 
@@ -51,8 +55,7 @@ app.Run();
 /// </summary>
 static void UseSqlServer(WebApplicationBuilder builder)
 {
-    builder.Services.AddDbContext<AppDbContext>(options =>
-        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 }
 
 /// <summary>
@@ -125,6 +128,8 @@ static void UseSwagger(WebApplicationBuilder builder)
 /// </summary>
 static void InjectServices(WebApplicationBuilder builder)
 {
+    builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+
     builder.Services.AddScoped<IUserRepository, UserRepository>();
     builder.Services.AddScoped<IFlightRepository, FlightRepository>();
     builder.Services.AddScoped<IReservationRepository, ReservationRepository>();

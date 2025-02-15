@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FlightReservationSystem.Infrastructure.Persistence
 {
-    public class AppDbContext : IdentityDbContext<User>
+    public class AppDbContext :  DbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
@@ -15,6 +15,7 @@ namespace FlightReservationSystem.Infrastructure.Persistence
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Reservation>()
                 .HasOne(r => r.Flight)
                 .WithMany(f => f.Reservations)
