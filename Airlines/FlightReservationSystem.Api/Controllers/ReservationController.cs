@@ -31,7 +31,7 @@ namespace FlightReservationSystem.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<ReservationDto>> Create([FromBody] Guid flightId)
         {
-            var userId = HttpContext.User.Identity.GetUserId();  // Get the current user's ID
+            var userId = HttpContext.User.Identity.GetUserId(); 
             var reservation = await _reservationService.CreateReservationAsync(flightId, userId);
             return CreatedAtAction(nameof(GetUserReservations), new { userId }, reservation);
         }
