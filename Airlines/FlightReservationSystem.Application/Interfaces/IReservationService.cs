@@ -4,9 +4,9 @@ namespace FlightReservationSystem.Application.Interfaces
 {
     public interface IReservationService
     {
-        Task<ReservationDto> CreateReservationAsync(Guid flightId, Guid userId);
+        Task<ReservationDto> CreateReservationAsync(Guid flightId, string userId);
 
-        Task<IEnumerable<ReservationDto>> GetUserReservationsAsync(Guid userId);
+        Task<IEnumerable<ReservationDto>> GetUserReservationsAsync(string userId);
 
         Task CancelReservationAsync(Guid reservationId);
 

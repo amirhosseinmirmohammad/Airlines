@@ -19,7 +19,7 @@ namespace FlightReservationSystem.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Reservation>> GetReservationsByUserAsync(Guid userId)
+        public async Task<IEnumerable<Reservation>> GetReservationsByUserAsync(string userId)
         {
             return await _context.Reservations.Where(r => r.UserId == userId).ToListAsync();
         }

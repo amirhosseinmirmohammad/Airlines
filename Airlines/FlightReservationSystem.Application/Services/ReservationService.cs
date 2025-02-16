@@ -13,7 +13,7 @@ namespace FlightReservationSystem.Application.Services
             _reservationRepository = reservationRepository;
         }
 
-        public async Task<ReservationDto> CreateReservationAsync(Guid flightId, Guid userId)
+        public async Task<ReservationDto> CreateReservationAsync(Guid flightId, string userId)
         {
             await _semaphore.WaitAsync();
             try
@@ -44,7 +44,7 @@ namespace FlightReservationSystem.Application.Services
             }
         }
 
-        public async Task<IEnumerable<ReservationDto>> GetUserReservationsAsync(Guid userId)
+        public async Task<IEnumerable<ReservationDto>> GetUserReservationsAsync(string userId)
         {
             var reservations = await _reservationRepository.GetReservationsByUserAsync(userId);
             return reservations.Select(r => new ReservationDto

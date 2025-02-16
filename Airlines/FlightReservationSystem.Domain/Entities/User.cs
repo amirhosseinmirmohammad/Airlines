@@ -4,6 +4,8 @@ namespace FlightReservationSystem.Domain.Entities
 {
     public class User : IdentityUser
     {
+        public User() { }
+
         public User(string fullName, string email, string password)
         {
             FullName = fullName;

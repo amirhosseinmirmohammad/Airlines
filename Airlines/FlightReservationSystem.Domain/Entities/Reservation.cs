@@ -2,19 +2,19 @@
 {
     public class Reservation
     {
-        public Reservation(Guid flightId, Guid userId)
+        public Reservation(Guid flightId, string userId)
         {
-            Id = Guid.NewGuid();
+            Id = Guid.NewGuid(); 
             FlightId = flightId;
             UserId = userId;
             ReservationDate = DateTime.UtcNow;
         }
 
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } 
 
         public Guid FlightId { get; set; }
 
-        public Guid UserId { get; set; }
+        public string UserId { get; set; } 
 
         public DateTime ReservationDate { get; set; }
 

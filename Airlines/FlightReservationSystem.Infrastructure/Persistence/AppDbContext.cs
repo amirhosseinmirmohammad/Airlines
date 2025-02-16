@@ -25,7 +25,7 @@ namespace FlightReservationSystem.Infrastructure.Persistence
             modelBuilder.Entity<Reservation>()
                 .HasOne(r => r.User)
                 .WithMany(u => u.Reservations)
-                .HasForeignKey(r => r.UserId)
+                .HasForeignKey(r => r.UserId) 
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

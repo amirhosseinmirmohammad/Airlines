@@ -6,7 +6,7 @@ namespace FlightReservationSystem.Domain.Interfaces
     {
         Task AddAsync(Reservation reservation);
 
-        Task<IEnumerable<Reservation>> GetReservationsByUserAsync(Guid userId);
+        Task<IEnumerable<Reservation>> GetReservationsByUserAsync(string userId);
 
         Task<Reservation> GetByIdAsync(Guid reservationId);
 

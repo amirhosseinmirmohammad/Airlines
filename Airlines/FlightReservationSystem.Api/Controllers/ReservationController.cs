@@ -30,7 +30,7 @@ namespace FlightReservationSystem.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<ReservationDto>> Create([FromBody] Guid flightId)
         {
-            var userId = Guid.Parse(HttpContext.User.Identity.Name);  // Get the current user's ID
+            var userId = HttpContext.User.Identity.Name;  // Get the current user's ID
             var reservation = await _reservationService.CreateReservationAsync(flightId, userId);
             return CreatedAtAction(nameof(GetUserReservations), new { userId = userId }, reservation);
         }
@@ -41,7 +41,7 @@ namespace FlightReservationSystem.Api.Controllers
         /// <param name="userId">The ID of the user to get reservations for.</param>
         /// <returns>A list of reservations for the user.</returns>
         [HttpGet("user/{userId}")]
-        public async Task<ActionResult<IEnumerable<ReservationDto>>> GetUserReservations(Guid userId)
+        public async Task<ActionResult<IEnumerable<ReservationDto>>> GetUserReservations(string userId)
         {
             var reservations = await _reservationService.GetUserReservationsAsync(userId);
             return Ok(reservations);
