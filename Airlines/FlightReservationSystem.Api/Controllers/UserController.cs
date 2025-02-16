@@ -1,12 +1,11 @@
 ﻿using FlightReservationSystem.Application.DTOs;
 using FlightReservationSystem.Application.Interfaces;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlightReservationSystem.Api.Controllers
 {
     /// <summary>
-    /// Controller for managing user-related operations (Register, Login, Logout).
+    /// Controller for managing user-related operations (Register, Login).
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
@@ -39,20 +38,10 @@ namespace FlightReservationSystem.Api.Controllers
         /// <param name="userDto">The user credentials (email and password).</param>
         /// <returns>A JWT token if login is successful.</returns>
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] UserDto userDto)
+        public async Task<IActionResult> Login([FromBody] UserLoginDto userDto)
         {
             var token = await _userService.LoginAsync(userDto.Email, userDto.Password);
             return Ok(new { Token = token });
-        }
-
-        /// <summary>
-        /// Logs out the current user (invalidate JWT on client-side).
-        /// </summary>
-        [HttpPost("logout")]
-        [Authorize] 
-        public IActionResult Logout()
-        {
-            return Ok();
         }
 
 

@@ -4,8 +4,10 @@ namespace FlightReservationSystem.Application.Interfaces
 {
     public interface IFlightService
     {
-        Task<IEnumerable<FlightDto>> SearchFlightsAsync(string origin, string destination, DateTime? departureDate);
+        Task<IEnumerable<FlightDto>> GetAllAsync();
 
-        Task<FlightDto> GetFlightByIdAsync(Guid flightId);
+        Task<IEnumerable<FlightDto>> SearchAsync(string origin, string destination, DateTime? departureDate);
+
+        Task<FlightDto> GetByIdAsync(Guid flightId);
     }
 }

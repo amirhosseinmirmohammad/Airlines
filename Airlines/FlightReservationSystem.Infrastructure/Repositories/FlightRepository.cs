@@ -1,5 +1,4 @@
-﻿using FlightReservationSystem.Domain.Entities;
-using FlightReservationSystem.Domain.Interfaces;
+﻿using FlightReservationSystem.Domain.Interfaces;
 using FlightReservationSystem.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -40,6 +39,12 @@ namespace FlightReservationSystem.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<IEnumerable<Flight>> GetAllAsync()
+        {
+            var query = _context.Flights.AsQueryable();
+
+            return await query.ToListAsync();
+        }
 
         private readonly AppDbContext _context;
     }

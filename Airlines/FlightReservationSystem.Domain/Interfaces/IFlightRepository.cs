@@ -8,6 +8,8 @@ namespace FlightReservationSystem.Domain.Interfaces
 
         Task<IEnumerable<Flight>> SearchAsync(string origin, string destination, DateTime? departureDate);
 
+        Task<IEnumerable<Flight>> GetAllAsync();
+
         Task UpdateAsync(Flight flight);
     }
 }

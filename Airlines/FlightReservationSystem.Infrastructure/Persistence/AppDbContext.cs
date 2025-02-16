@@ -1,10 +1,10 @@
 ﻿using FlightReservationSystem.Domain.Entities;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FlightReservationSystem.Infrastructure.Persistence
 {
-    public class AppDbContext :  DbContext
+    public class AppDbContext : DbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
@@ -25,8 +25,51 @@ namespace FlightReservationSystem.Infrastructure.Persistence
             modelBuilder.Entity<Reservation>()
                 .HasOne(r => r.User)
                 .WithMany(u => u.Reservations)
-                .HasForeignKey(r => r.UserId) 
+                .HasForeignKey(r => r.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
+        }
+
+        // Seed flights
+        public static void SeedData(IServiceProvider serviceProvider)
+        {
+            using var context = serviceProvider.GetRequiredService<AppDbContext>();
+            if (!context.Flights.Any()) 
+            {
+                context.Flights.AddRange(
+                    new Flight
+                    {
+                        Id = Guid.NewGuid(),
+                        FlightNumber = "IR700",
+                        Origin = "Tehran",
+                        Destination = "Mashhad",
+                        DepartureTime = new DateTime(2025, 3, 27, 8, 0, 0),
+                        ArrivalTime = new DateTime(2025, 3, 27, 9, 30, 0),
+                        AvailableSeats = 150
+                    },
+                    new Flight
+                    {
+                        Id = Guid.NewGuid(),
+                        FlightNumber = "IR701",
+                        Origin = "Tehran",
+                        Destination = "Shiraz",
+                        DepartureTime = new DateTime(2025, 3, 27, 10, 0, 0),
+                        ArrivalTime = new DateTime(2025, 3, 27, 11, 45, 0),
+                        AvailableSeats = 120
+                    },
+                    new Flight
+                    {
+                        Id = Guid.NewGuid(),
+                        FlightNumber = "IR702",
+                        Origin = "Isfahan",
+                        Destination = "Tabriz",
+                        DepartureTime = new DateTime(2025, 3, 28, 14, 0, 0),
+                        ArrivalTime = new DateTime(2025, 3, 28, 15, 30, 0),
+                        AvailableSeats = 100
+                    }
+                );
+
+                context.SaveChanges();
+            }
         }
     }
 }

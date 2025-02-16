@@ -1,5 +1,6 @@
 ﻿using FlightReservationSystem.Application.DTOs;
 using FlightReservationSystem.Application.Interfaces;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,7 +11,7 @@ namespace FlightReservationSystem.Api.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize] // Requires authentication for all actions in this controller
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class ReservationController : ControllerBase
     {
         /// <summary>
@@ -30,9 +31,9 @@ namespace FlightReservationSystem.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<ReservationDto>> Create([FromBody] Guid flightId)
         {
-            var userId = HttpContext.User.Identity.Name;  // Get the current user's ID
+            var userId = HttpContext.User.Identity.GetUserId();  // Get the current user's ID
             var reservation = await _reservationService.CreateReservationAsync(flightId, userId);
-            return CreatedAtAction(nameof(GetUserReservations), new { userId = userId }, reservation);
+            return CreatedAtAction(nameof(GetUserReservations), new { userId }, reservation);
         }
 
         /// <summary>
@@ -40,9 +41,10 @@ namespace FlightReservationSystem.Api.Controllers
         /// </summary>
         /// <param name="userId">The ID of the user to get reservations for.</param>
         /// <returns>A list of reservations for the user.</returns>
-        [HttpGet("user/{userId}")]
-        public async Task<ActionResult<IEnumerable<ReservationDto>>> GetUserReservations(string userId)
+        [HttpGet("myReservation")]
+        public async Task<ActionResult<IEnumerable<ReservationDto>>> GetUserReservations()
         {
+            var userId = HttpContext.User.Identity.GetUserId();
             var reservations = await _reservationService.GetUserReservationsAsync(userId);
             return Ok(reservations);
         }
@@ -54,15 +56,8 @@ namespace FlightReservationSystem.Api.Controllers
         [HttpDelete("{reservationId}")]
         public async Task<IActionResult> Cancel(Guid reservationId)
         {
-            try
-            {
-                await _reservationService.CancelReservationAsync(reservationId);
-                return NoContent(); 
-            }
-            catch (Exception ex)
-            {
-                return NotFound(new { message = ex.Message });  
-            }
+            await _reservationService.CancelReservationAsync(reservationId);
+            return Ok();
         }
 
 

@@ -30,6 +30,12 @@ InjectServices(builder);
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    AppDbContext.SeedData(services);
+}
+
 // Enable Swagger UI only in Development mode
 if (app.Environment.IsDevelopment())
 {
@@ -38,6 +44,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseRouting();
 
 // Enable Authentication and Authorization middlewares
 app.UseAuthentication();

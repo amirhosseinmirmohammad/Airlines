@@ -10,7 +10,7 @@ namespace FlightReservationSystem.Api.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize] // Requires authentication for all actions in this controller
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class FlightController : ControllerBase
     {
         /// <summary>
@@ -23,6 +23,17 @@ namespace FlightReservationSystem.Api.Controllers
         }
 
         /// <summary>
+        /// Get All flights.
+        /// </summary>
+        /// <returns>A list of all flights.</returns>
+        [HttpGet("getAll")]
+        public async Task<ActionResult<IEnumerable<FlightDto>>> GetAll()
+        {
+            var flights = await _flightService.GetAllAsync();
+            return Ok(flights);
+        }
+
+        /// <summary>
         /// Searches for flights based on the given origin, destination, and optional departure date.
         /// </summary>
         /// <param name="origin">The origin airport.</param>
@@ -30,9 +41,11 @@ namespace FlightReservationSystem.Api.Controllers
         /// <param name="departureDate">Optional departure date filter.</param>
         /// <returns>A list of flights matching the search criteria.</returns>
         [HttpGet("search")]
-        public async Task<ActionResult<IEnumerable<FlightDto>>> Search([FromQuery] string origin, [FromQuery] string destination, [FromQuery] DateTime? departureDate)
+        public async Task<ActionResult<IEnumerable<FlightDto>>> Search([FromQuery] string origin,
+                                                                       [FromQuery] string destination,
+                                                                       [FromQuery] DateTime? departureDate)
         {
-            var flights = await _flightService.SearchFlightsAsync(origin, destination, departureDate);
+            var flights = await _flightService.SearchAsync(origin, destination, departureDate);
             return Ok(flights);
         }
 
