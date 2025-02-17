@@ -4,20 +4,21 @@ using FlightReservationSystem.Domain.Entities;
 using FlightReservationSystem.Domain.Interfaces;
 using FlightReservationSystem.Infrastructure.Persistence;
 using FlightReservationSystem.Infrastructure.Repositories;
+using FlightReservationSystem.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
+builder.AddServiceDefaults();
+
 // Add services to the container.
 builder.Services.AddControllers();
-
-// Configure database connection (SQL Server)
-UseSqlServer(builder);
 
 // Configure JWT Authentication
 UseJwt(builder);
@@ -29,6 +30,8 @@ UseSwagger(builder);
 InjectServices(builder);
 
 var app = builder.Build();
+
+app.MapDefaultEndpoints();
 
 using (var scope = app.Services.CreateScope())
 {
@@ -56,14 +59,6 @@ app.UseCors();
 app.MapControllers();
 
 app.Run();
-
-/// <summary>
-/// Configures SQL Server DbContext.
-/// </summary>
-static void UseSqlServer(WebApplicationBuilder builder)
-{
-    builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-}
 
 /// <summary>
 /// Configures JWT authentication.
@@ -144,4 +139,7 @@ static void InjectServices(WebApplicationBuilder builder)
     builder.Services.AddScoped<IUserService, UserService>();
     builder.Services.AddScoped<IFlightService, FlightService>();
     builder.Services.AddScoped<IReservationService, ReservationService>();
+    builder.AddSqlServerFeatures();
+
+    builder.Services.AddTransient<IEmailService, EmailService>();
 }

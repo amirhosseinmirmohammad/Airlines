@@ -7,10 +7,16 @@ namespace FlightReservationSystem.Application.Services
 {
     public class ReservationService : IReservationService
     {
-        public ReservationService(IFlightRepository flightRepository, IReservationRepository reservationRepository)
+        public ReservationService(IFlightRepository flightRepository,
+                                  IReservationRepository reservationRepository,
+                                  IEmailService emailService,
+                                  IUserService userService)
         {
             _flightRepository = flightRepository;
             _reservationRepository = reservationRepository;
+            _emailService = emailService;
+            _userService = userService;
+
         }
 
         public async Task<ReservationDto> CreateReservationAsync(Guid flightId, string userId)
@@ -28,7 +34,23 @@ namespace FlightReservationSystem.Application.Services
                 await _flightRepository.UpdateAsync(flight);
 
                 var reservation = new Reservation(flightId, userId);
+
                 await _reservationRepository.AddAsync(reservation);
+
+                #region Email
+
+                try
+                {
+                    var user = await _userService.GetByIdAsync(userId);
+                    await _emailService.SendEmailAsync(user.Email, "Reservation Confirmation", $"Your reservation for flight {flight.FlightNumber} has been confirmed.");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error sending email: {ex.Message}");
+                }
+
+                #endregion
+
 
                 return new ReservationDto
                 {
@@ -101,7 +123,10 @@ namespace FlightReservationSystem.Application.Services
             };
         }
 
+
         private readonly IFlightRepository _flightRepository;
+        private readonly IUserService _userService;
+        private readonly IEmailService _emailService;
         private readonly IReservationRepository _reservationRepository;
         private static readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
     }

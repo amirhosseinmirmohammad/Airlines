@@ -2,6 +2,11 @@
 
 public class Flight
 {
+    public Flight()
+    {
+        Reservations = new List<Reservation>();
+    }
+
     public Guid Id { get; set; } 
 
     public string FlightNumber { get; set; }
@@ -16,7 +21,7 @@ public class Flight
 
     public int AvailableSeats { get; set; }
 
-    public ICollection<Reservation> Reservations { get; set; }
+    public virtual ICollection<Reservation> Reservations { get; set; }
 
     public bool ReserveSeat(int seats = 1)
     {

@@ -11,7 +11,7 @@ namespace FlightReservationSystem.Infrastructure.Repositories
             _userManager = userManager;
         }
 
-        public async Task<User> GetUserByEmailAsync(string email)
+        public async Task<User> GetByEmailAsync(string email)
         {
             return await _userManager.FindByEmailAsync(email);
         }
@@ -19,6 +19,11 @@ namespace FlightReservationSystem.Infrastructure.Repositories
         public async Task AddUserAsync(User user)
         {
             await _userManager.CreateAsync(user);
+        }
+
+        public async Task<User> GetByIdAsync(string userId)
+        {
+            return await _userManager.FindByIdAsync(userId);
         }
 
 

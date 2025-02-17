@@ -1,0 +1,27 @@
+services:
+  flightreservationsystem.api:
+    image: ${DOCKER_REGISTRY-}flightreservationsystemapi
+    build:
+      context: .
+      dockerfile: FlightReservationSystem.Api/Dockerfile
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=FlightReservationDb;User=sa;Password=Strong!Passw0rd;
+    depends_on:
+      - sqlserver
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      SA_PASSWORD: "Strong!Passw0rd"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserverdata:/var/opt/mssql
+
+volumes:
+  sqlserverdata:

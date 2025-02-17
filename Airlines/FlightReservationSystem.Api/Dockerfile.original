@@ -1,0 +1,42 @@
+# Base image for ASP.NET Core runtime (for running the app)
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+USER $APP_UID
+WORKDIR /app
+EXPOSE 8080
+EXPOSE 8081
+
+# Build stage using SDK image
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+ARG BUILD_CONFIGURATION=Release
+WORKDIR /src
+
+# Copy only the .csproj files first to take advantage of Docker cache
+COPY ["FlightReservationSystem.Api/FlightReservationSystem.Api.csproj", "FlightReservationSystem.Api/"]
+COPY ["FlightReservationSystem.Application/FlightReservationSystem.Application.csproj", "FlightReservationSystem.Application/"]
+COPY ["FlightReservationSystem.Domain/FlightReservationSystem.Domain.csproj", "FlightReservationSystem.Domain/"]
+COPY ["FlightReservationSystem.Infrastructure/FlightReservationSystem.Infrastructure.csproj", "FlightReservationSystem.Infrastructure/"]
+
+# Restore NuGet packages (only when .csproj files change)
+RUN dotnet restore "FlightReservationSystem.Api/FlightReservationSystem.Api.csproj"
+
+# Now copy the rest of the source code (this will trigger a rebuild only if the source code changes)
+COPY . .
+
+# Build the project
+WORKDIR "/src/FlightReservationSystem.Api"
+RUN dotnet build "./FlightReservationSystem.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
+
+# Publish stage for creating the final output
+FROM build AS publish
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish "./FlightReservationSystem.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+
+# Final production image
+FROM base AS final
+WORKDIR /app
+
+# Copy the published output from the build container
+COPY --from=publish /app/publish .
+
+# Set the entry point to run the application
+ENTRYPOINT ["dotnet", "FlightReservationSystem.Api.dll"]

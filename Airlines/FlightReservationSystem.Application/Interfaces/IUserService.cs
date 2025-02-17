@@ -1,4 +1,6 @@
-﻿namespace FlightReservationSystem.Application.Interfaces
+﻿using FlightReservationSystem.Application.DTOs;
+
+namespace FlightReservationSystem.Application.Interfaces
 {
     public interface IUserService
     {
@@ -7,5 +9,7 @@
         Task<string> LoginAsync(string email, string password);
 
         Task LogoutAsync();
+
+        Task<UserDto> GetByIdAsync(string userId);
     }
 }

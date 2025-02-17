@@ -4,7 +4,9 @@ namespace FlightReservationSystem.Domain.Interfaces
 {
     public interface IUserRepository
     {
-        Task<User> GetUserByEmailAsync(string email);
+        Task<User> GetByEmailAsync(string email);
+
+        Task<User> GetByIdAsync(string userId); 
 
         Task AddUserAsync(User user);
     }

@@ -33,6 +33,10 @@ namespace FlightReservationSystem.Infrastructure.Persistence
         public static void SeedData(IServiceProvider serviceProvider)
         {
             using var context = serviceProvider.GetRequiredService<AppDbContext>();
+            if (context.Flights == null) throw new Exception("Flights DbSet is null");
+
+            context.Database.Migrate();
+
             if (!context.Flights.Any()) 
             {
                 context.Flights.AddRange(

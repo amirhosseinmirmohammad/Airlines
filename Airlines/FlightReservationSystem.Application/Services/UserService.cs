@@ -1,4 +1,5 @@
-﻿using FlightReservationSystem.Application.Interfaces;
+﻿using FlightReservationSystem.Application.DTOs;
+using FlightReservationSystem.Application.Interfaces;
 using FlightReservationSystem.Domain.Entities;
 using FlightReservationSystem.Domain.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -52,17 +53,28 @@ namespace FlightReservationSystem.Application.Services
                 new Claim(ClaimTypes.Name, user.FullName),
                 new Claim(ClaimTypes.Email, user.Email),
             };
-
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSettings:SecretKey"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var token = new JwtSecurityToken(
-                _configuration["JwtSettings:Issuer"],
-                _configuration["JwtSettings:Audience"],
-                claims,
-                expires: DateTime.Now.AddMinutes(Convert.ToDouble(_configuration["JwtSettings:ExpiryInMinutes"])),
-                signingCredentials: creds);
+            var token = new JwtSecurityToken(_configuration["JwtSettings:Issuer"],
+                                             _configuration["JwtSettings:Audience"],
+                                             claims,
+                                             expires: DateTime.Now.AddMinutes(Convert.ToDouble(_configuration["JwtSettings:ExpiryInMinutes"])),
+                                             signingCredentials: creds);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        public async Task<UserDto> GetByIdAsync(string userId)
+        {
+            var user = await _userRepository.GetByIdAsync(userId);
+            if (user == null)
+                throw new Exception("User not found");
+
+            return new UserDto
+            {
+                FullName = user.FullName,
+                Email = user.Email
+            };
         }
 
 

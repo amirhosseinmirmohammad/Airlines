@@ -16,6 +16,6 @@ namespace FlightReservationSystem.Domain.Entities
 
         public string FullName { get; set; }
 
-        public ICollection<Reservation> Reservations { get; set; }
+        public virtual ICollection<Reservation> Reservations { get; set; }
     }
 }
