@@ -107,53 +107,42 @@ Content-Type: application/json
 
 ## 🛠 **Setup and Running the Project**
 
-### 🔹 **Prerequisites**
-Ensure you have the following installed:
-- **.NET SDK** (Version 8.0 or compatible)
-- **SQL Server** (or change database provider if needed)
-- **Postman** (for API testing, optional)
+### 🔹 **Aspire 9 & Docker Integration**
+This project uses **Aspire 9** to provide built-in monitoring, distributed tracing, and automatic **Docker-based SQL Server setup**.
 
-### 🔹 **Configuration**
-Modify the `appsettings.json` file to match your database connection:
+- **Real-time monitoring** of application performance.
+- **Database containerization** with automatic volume persistence.
+- **Improved debugging** with tracing support.
+
+### 🔹 **Email Notifications**
+After a successful flight reservation, an **email notification** is sent using SMTP settings. Ensure the following configuration in `appsettings.json`:
 
 ```json
-"ConnectionStrings": {
-    "DefaultConnection": "Server=localhost;Database=FlightReservationSystemDb;Trusted_Connection=True;"
+"EmailSettings": {
+    "SmtpServer": "smtp.example.com",
+    "SmtpPort": "587",
+    "SmtpUser": "username",
+    "SmtpPass": "password",
+    "FromEmail": "amirhosseinmirmohammad@gmail.com"
 }
 ```
 
-### 🔹 **How to Run the Project**
+### 🔹 **Testing Reservation System**
+This project includes **unit tests** to ensure reservation functionality works correctly.
+
+Run the tests using:
 ```bash
-dotnet restore      # Restore dependencies
-dotnet build        # Build the project
-dotnet run          # Run the API
+dotnet test
 ```
+
+Tests cover:
+- Creating a reservation.
+- Fetching user reservations.
+- Canceling a reservation.
 
 ---
 
-## 📌 **Database Setup & Migrations**
-Before running the API, you need to apply the database migrations.
-
-### ✅ **Step 1: Create Migrations**
-Run the following command to create an initial migration:
-
-```bash
-dotnet ef migrations add InitialCreate --project FlightReservationSystem.Infrastructure
-```
-
-### ✅ **Step 2: Apply Migrations**
-To update the database with the migrations, run:
-
-```bash
-dotnet ef database update --project FlightReservationSystem.Infrastructure
-```
-
-### ✅ **Step 3: Verify Database**
-Check your SQL Server instance to confirm that tables are created.
-
----
-
-## 🔦 **Testing the API**
+## 🛡 **Testing the API**
 Once the project is running, you can test it using:
 - **Postman**: Send requests manually.
 - **Swagger UI**: Visit `https://localhost:{port}/swagger` to explore the API.
@@ -166,3 +155,7 @@ This project allows users to:
 - Reserve flights 🏟
 - Manage reservations 📝
 - Authenticate users 🔐
+
+---
+
+End! 🚀
