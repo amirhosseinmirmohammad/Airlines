@@ -3,21 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightReservationSystem.Domain", "FlightReservationSystem.Domain\FlightReservationSystem.Domain.csproj", "{27A38AEB-0508-4757-88A4-48A2F007BAC7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlightReservationSystem.Domain", "FlightReservationSystem.Domain\FlightReservationSystem.Domain.csproj", "{27A38AEB-0508-4757-88A4-48A2F007BAC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightReservationSystem.Infrastructure", "FlightReservationSystem.Infrastructure\FlightReservationSystem.Infrastructure.csproj", "{F046E816-01DB-40BA-90A0-A3A651A5DE9F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlightReservationSystem.Infrastructure", "FlightReservationSystem.Infrastructure\FlightReservationSystem.Infrastructure.csproj", "{F046E816-01DB-40BA-90A0-A3A651A5DE9F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightReservationSystem.Application", "FlightReservationSystem.Application\FlightReservationSystem.Application.csproj", "{08361BFB-DE87-4C60-8290-BC4E20F1F176}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlightReservationSystem.Application", "FlightReservationSystem.Application\FlightReservationSystem.Application.csproj", "{08361BFB-DE87-4C60-8290-BC4E20F1F176}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightReservationSystem.Api", "FlightReservationSystem.Api\FlightReservationSystem.Api.csproj", "{73D0837B-73F6-42F2-9CFB-EC9E84D34B85}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlightReservationSystem.Api", "FlightReservationSystem.Api\FlightReservationSystem.Api.csproj", "{73D0837B-73F6-42F2-9CFB-EC9E84D34B85}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{81DDED9D-158B-E303-5F62-77A2896D2A5A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Airlines.AppHost", "Airlines.AppHost\Airlines.AppHost.csproj", "{65667E20-708B-4CAE-9FD9-4D832F9E84B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Airlines.AppHost", "Airlines.AppHost\Airlines.AppHost.csproj", "{65667E20-708B-4CAE-9FD9-4D832F9E84B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Airlines.ServiceDefaults", "Airlines.ServiceDefaults\Airlines.ServiceDefaults.csproj", "{BAEB9343-A641-5DDE-EFD6-77D5E82D546F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Airlines.ServiceDefaults", "Airlines.ServiceDefaults\Airlines.ServiceDefaults.csproj", "{BAEB9343-A641-5DDE-EFD6-77D5E82D546F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp", "WebApp\WebApp.csproj", "{3215F6CF-A442-1C21-6AD3-94ED23F4EBA5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApp", "WebApp\WebApp.csproj", "{3215F6CF-A442-1C21-6AD3-94ED23F4EBA5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

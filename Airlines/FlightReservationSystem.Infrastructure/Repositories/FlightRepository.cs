@@ -1,8 +1,8 @@
-﻿using FlightReservationSystem.Domain.Interfaces;
-using FlightReservationSystem.Infrastructure.Persistence;
+﻿using FlightReservationsSystem.Domain.Interfaces;
+using FlightReservationsSystem.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
-namespace FlightReservationSystem.Infrastructure.Repositories
+namespace FlightReservationsSystem.Infrastructure.Repositories
 {
     public class FlightRepository : IFlightRepository
     {

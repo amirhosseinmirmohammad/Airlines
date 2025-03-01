@@ -1,9 +1,9 @@
-﻿using FlightReservationSystem.Application.DTOs;
-using FlightReservationSystem.Application.Interfaces;
-using FlightReservationSystem.Domain.Entities;
-using FlightReservationSystem.Domain.Interfaces;
+﻿using FlightReservationsSystem.Application.DTOs;
+using FlightReservationsSystem.Application.Interfaces;
+using FlightReservationsSystem.Domain.Entities;
+using FlightReservationsSystem.Domain.Interfaces;
 
-namespace FlightReservationSystem.Application.Services
+namespace FlightReservationsSystem.Application.Services
 {
     public class ReservationService : IReservationService
     {

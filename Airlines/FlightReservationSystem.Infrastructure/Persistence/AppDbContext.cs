@@ -1,8 +1,8 @@
-﻿using FlightReservationSystem.Domain.Entities;
+﻿using FlightReservationsSystem.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FlightReservationSystem.Infrastructure.Persistence
+namespace FlightReservationsSystem.Infrastructure.Persistence
 {
     public class AppDbContext : DbContext
     {

@@ -1,4 +1,4 @@
-using FlightReservationSystem.Infrastructure.Persistence;
+using FlightReservationsSystem.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;

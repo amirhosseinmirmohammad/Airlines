@@ -1,4 +1,4 @@
-﻿using FlightReservationSystem.Domain.Entities;
+﻿using FlightReservationsSystem.Domain.Entities;
 
 public class Flight
 {

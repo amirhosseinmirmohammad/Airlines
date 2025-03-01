@@ -1,9 +1,9 @@
-﻿using FlightReservationSystem.Application.Interfaces;
+﻿using FlightReservationsSystem.Application.Interfaces;
 using System.Net;
 using System.Net.Mail;
 using Microsoft.Extensions.Configuration;
 
-namespace FlightReservationSystem.Infrastructure.Services
+namespace FlightReservationsSystem.Infrastructure.Services
 {
     public class EmailService : IEmailService
     {

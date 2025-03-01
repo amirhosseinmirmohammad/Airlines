@@ -1,10 +1,10 @@
-using FlightReservationSystem.Application.Interfaces;
-using FlightReservationSystem.Application.Services;
-using FlightReservationSystem.Domain.Entities;
-using FlightReservationSystem.Domain.Interfaces;
-using FlightReservationSystem.Infrastructure.Persistence;
-using FlightReservationSystem.Infrastructure.Repositories;
-using FlightReservationSystem.Infrastructure.Services;
+using FlightReservationsSystem.Application.Interfaces;
+using FlightReservationsSystem.Application.Services;
+using FlightReservationsSystem.Domain.Entities;
+using FlightReservationsSystem.Domain.Interfaces;
+using FlightReservationsSystem.Infrastructure.Persistence;
+using FlightReservationsSystem.Infrastructure.Repositories;
+using FlightReservationsSystem.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;

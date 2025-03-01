@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace FlightReservationSystem.Infrastructure.Migrations
+namespace FlightReservationsSystem.Infrastructure.Migrations
 {
     /// <inheritdoc />
     public partial class Initial2 : Migration

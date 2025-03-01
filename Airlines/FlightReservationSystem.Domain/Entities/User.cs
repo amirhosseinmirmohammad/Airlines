@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace FlightReservationSystem.Domain.Entities
+namespace FlightReservationsSystem.Domain.Entities
 {
     public class User : IdentityUser
     {

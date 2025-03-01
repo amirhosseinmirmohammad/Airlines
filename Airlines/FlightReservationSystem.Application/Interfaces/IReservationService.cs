@@ -1,6 +1,6 @@
-﻿using FlightReservationSystem.Application.DTOs;
+﻿using FlightReservationsSystem.Application.DTOs;
 
-namespace FlightReservationSystem.Application.Interfaces
+namespace FlightReservationsSystem.Application.Interfaces
 {
     public interface IReservationService
     {

@@ -1,5 +1,7 @@
+using Blazored.LocalStorage;
 using MudBlazor.Services;
 using WebApp.Components;
+using WebApp.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +10,17 @@ builder.AddServiceDefaults();
 builder.Services.AddServerSideBlazor();
 
 builder.Services.AddMudServices();
+
+builder.Services.AddBlazoredLocalStorage();
+
+builder.Services.AddScoped<SnackbarHelper>();
+
+var backendBaseAddress = "https://localhost:7170/";
+builder.Services.AddScoped(sp =>
+{
+    var httpClient = new HttpClient { BaseAddress = new Uri(backendBaseAddress) };
+    return httpClient;
+});
 
 // Add services to the container.
 builder.Services.AddRazorComponents()

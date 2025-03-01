@@ -1,8 +1,8 @@
-﻿using FlightReservationSystem.Domain.Entities;
-using FlightReservationSystem.Domain.Interfaces;
+﻿using FlightReservationsSystem.Domain.Entities;
+using FlightReservationsSystem.Domain.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
-namespace FlightReservationSystem.Infrastructure.Repositories
+namespace FlightReservationsSystem.Infrastructure.Repositories
 {
     public class UserRepository : IUserRepository
     {

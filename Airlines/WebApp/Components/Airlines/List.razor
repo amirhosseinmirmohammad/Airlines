@@ -1,0 +1,76 @@
+﻿@page "/Airlines/List"
+@using WebApp.Utilities
+@inject ILocalStorageService LocalStorage
+@inject HttpClient httpClient
+@inject SnackbarHelper SnackbarHelper
+
+<PageTitle>Airlines List</PageTitle>
+
+<MudTable Items="@flights" SortLabel="مرتب سازی بر اساس" Class="text-center" Hover="true" Breakpoint="Breakpoint.Sm" Loading="@_loading" LoadingProgressColor="Color.Info">
+    <HeaderContent>
+        <MudTh>شماره پرواز</MudTh>
+        <MudTh>مبدا</MudTh>
+        <MudTh>مقصد</MudTh>
+        <MudTh>زمان پرواز</MudTh>
+        <MudTh>زمان فرود</MudTh>
+        <MudTh>تعداد صندلی موجود</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Flight Number">@context.FlightNumber</MudTd>
+        <MudTd DataLabel="Origin">@context.Origin</MudTd>
+        <MudTd DataLabel="Destination">@context.Destination</MudTd>
+        <MudTd DataLabel="Departure Time">@Utilities.DateTimeConverter.ToPersianDateTimeWithPeriod(context.DepartureTime)</MudTd>
+        <MudTd DataLabel="Arrival Time">@Utilities.DateTimeConverter.ToPersianDateTimeWithPeriod(context.ArrivalTime)</MudTd>
+        <MudTd DataLabel="Available Seats">@context.AvailableSeats</MudTd>
+    </RowTemplate>
+</MudTable>
+
+@code {
+    private bool _loading;
+    private bool _isTokenLoaded = false;
+    private IEnumerable<Flight> flights = new List<Flight>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadFlights();
+    }
+
+    private async Task LoadFlights()
+    {
+        _loading = true;
+        StateHasChanged();
+
+        try
+        {
+            var token = await LocalStorage.GetItemAsync<string>("authToken");
+
+            if (string.IsNullOrEmpty(token))
+            {
+                SnackbarHelper.Show("⚠ شما وارد نشده‌اید! لطفاً وارد شوید.", Severity.Error);
+                return;
+            }
+
+            var request = new HttpRequestMessage(HttpMethod.Get, $"{httpClient.BaseAddress}api/Flights/getAll");
+            request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+            var response = await httpClient.SendAsync(request);
+            if (response.IsSuccessStatusCode)
+            {
+                flights = await response.Content.ReadFromJsonAsync<List<Flight>>() ?? new List<Flight>();
+            }
+            else
+            {
+                SnackbarHelper.Show($"❌ خطا در دریافت اطلاعات: {response.StatusCode}", Severity.Error);
+            }
+        }
+        catch (Exception ex)
+        {
+            SnackbarHelper.Show($"🚨 خطای غیرمنتظره: {ex.Message}", Severity.Error);
+        }
+        finally
+        {
+            _loading = false;
+            StateHasChanged();
+        }
+    }
+}

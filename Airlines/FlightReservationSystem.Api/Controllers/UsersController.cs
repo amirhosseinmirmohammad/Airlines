@@ -1,5 +1,5 @@
-﻿using FlightReservationSystem.Application.DTOs;
-using FlightReservationSystem.Application.Interfaces;
+﻿using FlightReservationsSystem.Application.DTOs;
+using FlightReservationsSystem.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlightReservationSystem.Api.Controllers
@@ -9,13 +9,13 @@ namespace FlightReservationSystem.Api.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UsersController : ControllerBase
     {
         /// <summary>
         /// Initializes a new instance of the UserController class.
         /// </summary>
         /// <param name="userService">The user service.</param>
-        public UserController(IUserService userService)
+        public UsersController(IUserService userService)
         {
             _userService = userService;
         }

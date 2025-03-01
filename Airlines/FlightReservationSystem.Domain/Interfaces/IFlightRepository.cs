@@ -1,6 +1,6 @@
-﻿using FlightReservationSystem.Domain.Entities;
+﻿using FlightReservationsSystem.Domain.Entities;
 
-namespace FlightReservationSystem.Domain.Interfaces
+namespace FlightReservationsSystem.Domain.Interfaces
 {
     public interface IFlightRepository
     {

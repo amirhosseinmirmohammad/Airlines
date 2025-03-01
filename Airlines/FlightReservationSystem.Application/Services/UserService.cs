@@ -1,7 +1,7 @@
-﻿using FlightReservationSystem.Application.DTOs;
-using FlightReservationSystem.Application.Interfaces;
-using FlightReservationSystem.Domain.Entities;
-using FlightReservationSystem.Domain.Interfaces;
+﻿using FlightReservationsSystem.Application.DTOs;
+using FlightReservationsSystem.Application.Interfaces;
+using FlightReservationsSystem.Domain.Entities;
+using FlightReservationsSystem.Domain.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -9,7 +9,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace FlightReservationSystem.Application.Services
+namespace FlightReservationsSystem.Application.Services
 {
     public class UserService : IUserService
     {

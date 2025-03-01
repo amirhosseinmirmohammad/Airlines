@@ -1,4 +1,4 @@
-﻿namespace FlightReservationSystem.Application.Interfaces
+﻿namespace FlightReservationsSystem.Application.Interfaces
 {
     public interface IEmailService
     {

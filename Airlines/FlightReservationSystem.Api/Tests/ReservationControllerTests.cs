@@ -1,19 +1,19 @@
-﻿using FlightReservationSystem.Api.Controllers;
-using FlightReservationSystem.Application.DTOs;
-using FlightReservationSystem.Application.Interfaces;
+﻿using FlightReservationsSystem.Application.DTOs;
+using FlightReservationsSystem.Application.Interfaces;
+using FlightReservationSystem.Api.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Security.Claims;
 using Xunit;
 
-namespace FlightReservationSystem.Api.Tests
+namespace FlightReservationsSystem.Api.Tests
 {
     public class ReservationControllerTests
     {
         public ReservationControllerTests()
         {
             _mockReservationService = new Mock<IReservationService>();
-            _controller = new ReservationController(_mockReservationService.Object);
+            _controller = new ReservationsController(_mockReservationService.Object);
 
             var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
             {
@@ -75,6 +75,6 @@ namespace FlightReservationSystem.Api.Tests
 
 
         private readonly Mock<IReservationService> _mockReservationService;
-        private readonly ReservationController _controller;
+        private readonly ReservationsController _controller;
     }
 }

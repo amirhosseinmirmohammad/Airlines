@@ -1,4 +1,4 @@
-﻿namespace FlightReservationSystem.Domain.Entities
+﻿namespace FlightReservationsSystem.Domain.Entities
 {
     public class Reservation
     {

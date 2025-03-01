@@ -1,4 +1,4 @@
-﻿namespace FlightReservationSystem.Application.DTOs
+﻿namespace FlightReservationsSystem.Application.DTOs
 {
     public class FlightDto
     {
