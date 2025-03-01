@@ -20,6 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\FlightReservationSystem.Api\FlightReservationSystem.Api.csproj" />
     <ProjectReference Include="..\FlightReservationSystem.Infrastructure\FlightReservationSystem.Infrastructure.csproj" />
+    <ProjectReference Include="..\WebApp\WebApp.csproj" />
   </ItemGroup>
 
 </Project>

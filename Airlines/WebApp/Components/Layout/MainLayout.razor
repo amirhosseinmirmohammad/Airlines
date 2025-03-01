@@ -1,0 +1,44 @@
+﻿@inherits LayoutComponentBase
+
+<MudRTLProvider RightToLeft="@_rightToLeft">
+    <MudThemeProvider Theme="@MyCustomTheme" />
+    <MudPopoverProvider />
+    <MudDialogProvider />
+    <MudSnackbarProvider />
+    <MudAppBar Color="Color.Primary" Fixed="false" Dense="@dense" Elevation="@elevation">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        My Application
+    </MudAppBar>
+    <MudDrawer @bind-Open="@_drawerOpen">
+        <MyNavMenu />
+    </MudDrawer>
+    <MudLayout>
+        <MudContainer MaxWidth="MaxWidth.Medium">
+            @Body
+        </MudContainer>
+    </MudLayout>
+</MudRTLProvider>
+
+@code {
+    private bool _rightToLeft = true;
+
+    bool _drawerOpen = true;
+    int elevation = 4;
+    bool dense = false;
+
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+
+    MudTheme MyCustomTheme = new MudTheme()
+        {
+            Typography = new Typography()
+            {
+                Default = new DefaultTypography()
+                {
+                    FontFamily = new[] { "iransans" }
+                }
+            }
+        };
+}

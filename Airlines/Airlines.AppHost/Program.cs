@@ -15,4 +15,8 @@ builder.AddProject<Projects.FlightReservationSystem_Api>("flightreservationsyste
        .WithReference(airlinesSystemDatabase)
        .WaitFor(airlinesSystemDatabase);
 
+builder.AddProject<Projects.WebApp>("webapp")
+       .WithReference(airlinesSystemDatabase)
+       .WaitFor(airlinesSystemDatabase);
+
 builder.Build().Run();
