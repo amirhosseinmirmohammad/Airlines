@@ -3,7 +3,8 @@
 @inject HttpClient httpClient
 
 <MudRTLProvider RightToLeft="@_rightToLeft">
-    <MudThemeProvider Theme="@MyCustomTheme" />
+    <MudThemeProvider @bind-IsDarkMode="@_isDarkMode" Theme="@MyCustomTheme" />
+    <MudSwitch @bind-Value="_isDarkMode" Color="Color.Primary" Class="ma-4" T="bool" Label="Toggle Light/Dark Mode" />
     <MudPopoverProvider />
     <MudDialogProvider />
     <MudSnackbarProvider />
@@ -28,6 +29,7 @@
     private bool dense = false;
     private bool _isTokenLoaded = false;
     private const string DefaultToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImZlZDQ1YTQ2LTE3NzYtNDI4ZC04M2U4LTgzNWJiYjhjN2MwZiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJBbWlyIEhvc3NlaW4gTWlyIE1vaGFtbWFkIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYW1pcmhvc3NlaW5taXJtb2hhbW1hZEBnbWFpbC5jb20iLCJleHAiOjE3NDA4NzQ3NjEsImlzcyI6IllvdXJJc3N1ZXIiLCJhdWQiOiJNYWhhbkFpcmxpbmVzIn0.lz2Ptda7D4eiFRApSc0U9ZePluQEqTjcpJ8jm3T5MHI";
+    private bool _isDarkMode;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

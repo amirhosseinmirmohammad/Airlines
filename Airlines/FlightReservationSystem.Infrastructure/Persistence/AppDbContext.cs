@@ -35,7 +35,7 @@ namespace FlightReservationsSystem.Infrastructure.Persistence
             using var context = serviceProvider.GetRequiredService<AppDbContext>();
             if (context.Flights == null) throw new Exception("Flights DbSet is null");
 
-            if (!context.Database.CanConnect())
+            if (context.Database.GetPendingMigrations().Any())
             {
                 context.Database.Migrate();
             }

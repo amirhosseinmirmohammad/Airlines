@@ -16,12 +16,12 @@
         <MudTh>تعداد صندلی موجود</MudTh>
     </HeaderContent>
     <RowTemplate>
-        <MudTd DataLabel="Flight Number">@context.FlightNumber</MudTd>
-        <MudTd DataLabel="Origin">@context.Origin</MudTd>
-        <MudTd DataLabel="Destination">@context.Destination</MudTd>
-        <MudTd DataLabel="Departure Time">@Utilities.DateTimeConverter.ToPersianDateTimeWithPeriod(context.DepartureTime)</MudTd>
-        <MudTd DataLabel="Arrival Time">@Utilities.DateTimeConverter.ToPersianDateTimeWithPeriod(context.ArrivalTime)</MudTd>
-        <MudTd DataLabel="Available Seats">@context.AvailableSeats</MudTd>
+        <MudTd DataLabel="شماره پرواز">@context.FlightNumber</MudTd>
+        <MudTd DataLabel="مبدا">@context.Origin</MudTd>
+        <MudTd DataLabel="مقصد">@context.Destination</MudTd>
+        <MudTd DataLabel="زمان پرواز">@Utilities.DateTimeConverter.ToPersianDateTimeWithPeriod(context.DepartureTime)</MudTd>
+        <MudTd DataLabel="زمان فرود">@Utilities.DateTimeConverter.ToPersianDateTimeWithPeriod(context.ArrivalTime)</MudTd>
+        <MudTd DataLabel="تعداد صندلی موجود">@context.AvailableSeats</MudTd>
     </RowTemplate>
 </MudTable>
 
