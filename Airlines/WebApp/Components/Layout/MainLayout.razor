@@ -1,6 +1,9 @@
-﻿@inherits LayoutComponentBase
-@inject ILocalStorageService LocalStorage
+﻿@using Microsoft.AspNetCore.Components.Authorization
 @inject HttpClient httpClient
+@inject AuthenticationStateProvider AuthStateProvider
+@inject ILocalStorageService LocalStorage
+@inject NavigationManager Navigation
+@inherits LayoutComponentBase
 
 <MudRTLProvider RightToLeft="@_rightToLeft">
     <MudThemeProvider Theme="@MyCustomTheme" />
@@ -8,6 +11,8 @@
     <MudDialogProvider />
     <MudSnackbarProvider />
     <MudAppBar Color="Color.Primary" Fixed="false" Dense="@dense" Elevation="@elevation">
+        <MudText>خوش آمدید، @UserName</MudText>
+        <MudButton OnClick="Logout">خروج</MudButton>
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
         My Application
     </MudAppBar>
@@ -16,7 +21,14 @@
     </MudDrawer>
     <MudLayout>
         <MudContainer MaxWidth="MaxWidth.Medium">
-            @Body
+            @if (!_isCheckingAuth)
+            {
+                @Body
+            }
+            else
+            {
+                <MudProgressCircular Indeterminate="true" Color="Color.Primary" />
+            }
         </MudContainer>
     </MudLayout>
 </MudRTLProvider>
@@ -26,30 +38,56 @@
     private bool _drawerOpen = true;
     private int elevation = 4;
     private bool dense = false;
-    private bool _isTokenLoaded = false;
-    private const string DefaultToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImZlZDQ1YTQ2LTE3NzYtNDI4ZC04M2U4LTgzNWJiYjhjN2MwZiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJBbWlyIEhvc3NlaW4gTWlyIE1vaGFtbWFkIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYW1pcmhvc3NlaW5taXJtb2hhbW1hZEBnbWFpbC5jb20iLCJleHAiOjE3NDA4NzQ3NjEsImlzcyI6IllvdXJJc3N1ZXIiLCJhdWQiOiJNYWhhbkFpcmxpbmVzIn0.lz2Ptda7D4eiFRApSc0U9ZePluQEqTjcpJ8jm3T5MHI";
+    private string UserName { get; set; } = "کاربر مهمان";
+    private bool _isCheckingAuth = true;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender && !_isTokenLoaded)
+        if (firstRender)
         {
-            await EnsureTokenIsSet();
-            _isTokenLoaded = true;
-            StateHasChanged(); 
+            Navigation.LocationChanged += async (sender, args) => await CheckAuthenticationAsync(); // بررسی لاگین هنگام تغییر صفحه
+            await CheckAuthenticationAsync();
+            _isCheckingAuth = false;
+            StateHasChanged();
         }
     }
 
-    private async Task EnsureTokenIsSet()
+    private async Task CheckAuthenticationAsync()
     {
         var token = await LocalStorage.GetItemAsync<string>("authToken");
 
         if (string.IsNullOrEmpty(token))
         {
-            Console.WriteLine("⚠ Token not found. Setting default token...");
-            await LocalStorage.SetItemAsync("authToken", DefaultToken);
+            if (!Navigation.Uri.Contains("login")) // جلوگیری از لوپ بی‌نهایت در صفحه لاگین
+            {
+                Navigation.NavigateTo("/login");
+            }
         }
+        else
+        {
+            await LoadUserAsync();
+        }
+    }
 
-        httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", DefaultToken);
+    public async Task LoadUserAsync()
+    {
+        var newUserName = await LocalStorage.GetItemAsync<string>("userName") ?? "کاربر مهمان";
+        if (newUserName != UserName) // فقط اگر مقدار تغییر کند، UI را آپدیت کن
+        {
+            UserName = newUserName;
+            StateHasChanged();
+        }
+    }
+
+    private async Task Logout()
+    {
+        await LocalStorage.RemoveItemAsync("authToken");
+        await LocalStorage.RemoveItemAsync("userName");
+
+        UserName = "کاربر مهمان";
+        StateHasChanged();
+
+        Navigation.NavigateTo("/login");
     }
 
     private void DrawerToggle()

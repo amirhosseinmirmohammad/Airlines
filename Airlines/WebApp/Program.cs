@@ -1,4 +1,5 @@
 using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Components.Authorization;
 using MudBlazor.Services;
 using WebApp.Components;
 using WebApp.Utilities;
@@ -15,6 +16,8 @@ builder.Services.AddBlazoredLocalStorage();
 
 builder.Services.AddScoped<SnackbarHelper>();
 
+builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
+
 var backendBaseAddress = "https://localhost:7170/";
 builder.Services.AddScoped(sp =>
 {
@@ -25,6 +28,8 @@ builder.Services.AddScoped(sp =>
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddCascadingAuthenticationState();
 
 var app = builder.Build();
 

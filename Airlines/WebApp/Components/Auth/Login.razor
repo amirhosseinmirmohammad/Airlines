@@ -1,0 +1,74 @@
+﻿@page "/login"
+@using WebApp.Utilities
+@inject ILocalStorageService LocalStorage
+@inject HttpClient httpClient
+@inject NavigationManager Navigation
+@inject SnackbarHelper SnackbarHelper
+
+<PageTitle>Login</PageTitle>
+
+<MudCard Class="pa-4 text-center mx-auto" Style="max-width: 400px;">
+    <MudCardContent>
+        <MudText Typo="Typo.h5">ورود به حساب</MudText>
+        <MudForm Model="loginModel" Class="mt-4" @ref="form">
+            <MudTextField Label="ایمیل" @bind-Value="loginModel.Email" Required="true" Type="email" Variant="Variant.Outlined" />
+            <MudTextField Label="رمز عبور" @bind-Value="loginModel.Password" Required="true" Type="password" Variant="Variant.Outlined" />
+            <MudButton OnClick="LoginAsync" Variant="Variant.Filled" Color="Color.Primary" Class="mt-3">ورود</MudButton>
+        </MudForm>
+    </MudCardContent>
+</MudCard>
+
+@code {
+    private UserLoginDto loginModel = new();
+    private MudForm? form;
+
+    private async Task LoginAsync()
+    {
+        if (form is not null)
+        {
+            await form.Validate();
+            if (!form.IsValid) 
+            {
+                SnackbarHelper.Show("⚠ لطفاً اطلاعات معتبر وارد کنید.", Severity.Warning);
+                return;
+            }
+        }
+
+        try
+        {
+            var response = await httpClient.PostAsJsonAsync("api/Users/login", loginModel);
+            if (response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadFromJsonAsync<JwtResponse>();
+                if (result is not null && !string.IsNullOrEmpty(result.Token))
+                {
+                    await LocalStorage.SetItemAsync("authToken", result.Token);
+                    await LocalStorage.SetItemAsync("userName", loginModel.Email);
+                    StateHasChanged();
+
+                    SnackbarHelper.Show("✅ ورود موفقیت‌آمیز!", Severity.Success);
+                    Navigation.NavigateTo("/");
+                }
+            }
+            else
+            {
+                SnackbarHelper.Show("❌ ایمیل یا رمز عبور اشتباه است.", Severity.Error);
+            }
+        }
+        catch (Exception ex)
+        {
+            SnackbarHelper.Show($"🚨 خطای غیرمنتظره: {ex.Message}", Severity.Error);
+        }
+    }
+
+    private class JwtResponse
+    {
+        public string Token { get; set; } = string.Empty;
+    }
+
+    private class UserLoginDto
+    {
+        public string Email { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+    }
+}
